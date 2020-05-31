@@ -15,7 +15,7 @@ runBtn.addEventListener('click', () => {
     const payload = {
         "code": `${code}`,
         "socketId": `${socketId}`,
-        "dockerConfig": "1"
+        "dockerConfig": "0"
     }
     if (code && code.trim() !== '') {
         try {
@@ -31,4 +31,8 @@ runBtn.addEventListener('click', () => {
             console.err(err);
         } 
     }
+});
+
+socketConnection.on('build-img-stdout', stdout => {
+    stdoutContainer.innerHTML += stdout.stdout + '<br />';
 });
