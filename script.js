@@ -15,7 +15,7 @@ runBtn.addEventListener('click', () => {
     const payload = {
         "code": `${code}`,
         "socketId": `${socketId}`,
-l        "dockerConfig": "1"
+        "dockerConfig": "1"
     }
     if (code && code.trim() !== '') {
         try {
