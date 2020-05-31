@@ -1,4 +1,9 @@
-const socket = io.connect('http://localhost:3000');
+const socketConnection = io.connect('http://localhost:8080/');
+let socketId;
+socketConnection.on('connect', () => {
+    socketId = socketConnection.id;
+    console.log('socketId is: ' + socketId);
+});
 
 const codeEditor = document.getElementById('code-editor');
 const runBtn = document.getElementById('runBtn');
@@ -9,7 +14,8 @@ runBtn.addEventListener('click', () => {
     const code = codeEditor.value;
     const payload = {
         "code": `${code}`,
-        "dockerConfig": "1"
+        "socketId": `${socketId}`,
+l        "dockerConfig": "1"
     }
     if (code && code.trim() !== '') {
         try {
