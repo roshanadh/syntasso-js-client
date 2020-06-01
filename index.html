@@ -27,12 +27,17 @@
                 margin: 10px;
                 padding: 10px;
             }
+            #dockerConfig {
+                height: 30px;
+                text-align: center;
+            }
         </style>
     </head>
     <body>
         <div id="container">
             <form id="submit-form">
                 <textarea id="code-editor"></textarea> <br />
+                <input placeholder="dockerConfig" id="dockerConfig" type="number"/>
                 <button id="runBtn">Run Code</button>
             </form>
             <p id="stdout-container"></p>
