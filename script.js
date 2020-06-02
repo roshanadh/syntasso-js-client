@@ -36,7 +36,7 @@ runBtn.addEventListener('click', () => {
     }
 });
 
-socketConnection.on('build-img-stdout', stdout => {
+socketConnection.on('docker-app-stdout', stdout => {
     stdoutContainer.innerHTML += stdout.stdout + '<br />';
 });
 
