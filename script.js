@@ -10,7 +10,34 @@ const dockerConfigField = document.getElementById('dockerConfig');
 const runBtn = document.getElementById('runBtn');
 const stdoutContainer = document.getElementById('stdout-container');
 
-runBtn.addEventListener('click', () => {
+const fileUploadInput = document.getElementById('fileUpload');
+const uploadBtn = document.getElementById('uploadBtn');
+
+uploadBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    const file = fileUploadInput.files[0];
+
+    const formData = new FormData();
+    formData.append('socketId', socketId);
+    formData.append('submission', file);
+    formData.append('dockerConfig', dockerConfigField.value);
+
+    for (var value of formData.values()) {
+        console.log(value); 
+    }
+    if (file) {
+        try {
+            fetch('http://localhost:8080/upload', {
+                method: 'POST',
+                body: formData
+            });
+        } catch (err) {
+            console.err(err);
+        }
+    }
+});
+
+runBtn.addEventListener('click', (event) => {
     event.preventDefault();
     const code = codeEditor.value;
     const dockerConfig = dockerConfigField.value;
