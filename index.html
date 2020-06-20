@@ -13,6 +13,11 @@
                 width: 46%;
                 margin: 10px;
             }
+            #form {
+                position: absolute;
+                bottom: 0;
+                width: 46%;
+            }
             #code-editor {
                 height: 25em;
                 width: 100%;
@@ -41,8 +46,14 @@
                 <button id="runBtn">Run Code</button>
             </form>
             <p id="stdout-container"></p>
-            <!-- script to create socket connection -->
-            <script src="script.js"></script>
         </div>
+        <div id="form">
+            <form>
+                <input type="file" id="fileUpload">
+                <button id="uploadBtn">Upload</button>
+            </form>
+        </div>
+        <!-- script to create socket connection -->
+        <script src="script.js"></script>
     </body>
 </html>
