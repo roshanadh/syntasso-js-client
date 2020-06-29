@@ -54,7 +54,7 @@ outputUploadBtn.addEventListener('click', (event) => {
         formData.append("sampleInputs", input);
     for (let output of outputFiles)
         formData.append("expectedOutputs", output);
-    formData.append('code', codeEditor.value || "console.log('Hello Nepal!')");
+    formData.append('code', codeEditor.value || "console.log('Hello World!')");
     formData.append('dockerConfig', dockerConfigField.value || 0);
 
     for (var value of formData.values()) {
@@ -109,6 +109,14 @@ runBtn.addEventListener('click', (event) => {
 
 socketConnection.on('docker-app-stdout', stdout => {
     stdoutContainer.innerHTML += stdout.stdout + '<br />';
+});
+
+
+socketConnection.on('test-status', stdout => {
+    console.dir({
+        message: "test-status-event",
+        ...stdout
+    });
 });
 
 socketConnection.on('container-id', containerId => {
