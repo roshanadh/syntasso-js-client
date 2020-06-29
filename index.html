@@ -13,10 +13,13 @@
                 width: 46%;
                 margin: 10px;
             }
-            #form {
+            #form-container {
                 position: absolute;
                 bottom: 0;
                 width: 46%;
+            }
+            .form {
+                margin: 20px;
             }
             #code-editor {
                 height: 25em;
@@ -47,11 +50,26 @@
             </form>
             <p id="stdout-container"></p>
         </div>
-        <div id="form">
-            <form>
-                <input type="file" id="fileUpload">
-                <button id="uploadBtn">Upload</button>
-            </form>
+        <div id="form-container">
+            <div class="form">
+                <form>
+                    <input type="file" id="fileUpload">
+                    <button id="fileUploadBtn">Upload JS File</button>
+                </form>
+            </div>
+            <div class="form">
+                <form>
+                    Upload Sample Input Files
+                    <input type="file" id="sampleInputUpload" multiple>
+                </form>
+            </div>
+            <div class="form">
+                <form>
+                    Upload Expected Output Files
+                    <input type="file" id="expectedOutputUpload" multiple>
+                    <button id="outputUploadBtn">Upload Input and Output Files</button>
+                </form>
+            </div>
         </div>
         <!-- script to create socket connection -->
         <script src="script.js"></script>
