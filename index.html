@@ -1,77 +1,101 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Syntasso JS</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
-        <!-- socket.io library -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
-        <style>
-            #submit-form {
-                position: absolute;
-                left: 0;
-                width: 46%;
-                margin: 10px;
-            }
-            #form-container {
-                position: absolute;
-                bottom: 0;
-                width: 46%;
-            }
-            .form {
-                margin: 20px;
-            }
-            #code-editor {
-                height: 25em;
-                width: 100%;
-            }
-            #stdout-container {
-                border: 1px solid slategrey;
-                border-radius: 5px;
-                position: absolute;
-                right: 0;
-                width: 46%;
-                height: 100%;
-                margin: 10px;
-                padding: 10px;
-            }
-            #dockerConfig {
-                height: 30px;
-                text-align: center;
-            }
-        </style>
-    </head>
-    <body>
+
+<head>
+    <title>Syntasso JS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+    <!-- socket.io library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+    <style>
+        #left {
+            position: absolute;
+            left: 0;
+            top: 0px;
+            width: 46%;
+            margin: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .form {
+            margin: 20px;
+            /* border: 1px solid red; */
+        }
+        
+        #code-editor {
+            height: 15em;
+            width: 100%;
+        }
+        
+        #stdout-container {
+            border: 1px solid slategrey;
+            border-radius: 5px;
+            position: absolute;
+            right: 0;
+            top: 40px;
+            width: 46%;
+            height: 100%;
+            margin: 10px;
+            padding: 10px;
+        }
+        
+        #clearBtn {
+            position: absolute;
+            top: 10px;
+            right: 5px;
+        }
+        
+        #dockerConfig {
+            height: 30px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="left">
+
         <div id="container">
             <form id="submit-form">
                 <textarea id="code-editor"></textarea> <br />
-                <input placeholder="dockerConfig" id="dockerConfig" type="number"/>
+                <input placeholder="dockerConfig" id="dockerConfig" type="number" />
                 <button id="runBtn">Run Code</button>
             </form>
-            <p id="stdout-container"></p>
+
         </div>
         <div id="form-container">
             <div class="form">
                 <form>
+                    Upload JavaScript File<br />
                     <input type="file" id="fileUpload">
-                    <button id="fileUploadBtn">Upload JS File</button>
+                    <button id="fileUploadBtn">Upload JS File and Run</button>
                 </form>
             </div>
             <div class="form">
                 <form>
-                    Upload Sample Input Files
+                    Upload Sample Input Files<br />
                     <input type="file" id="sampleInputUpload" multiple>
                 </form>
             </div>
             <div class="form">
                 <form>
-                    Upload Expected Output Files
+                    Upload Expected Output Files<br />
                     <input type="file" id="expectedOutputUpload" multiple>
+
+                    <input type="checkbox" id="useJsFileCheckbox" name="useJsFileCheckbox" value="true">Use uploaded JS file
+                    <br />
                     <button id="outputUploadBtn">Upload Input and Output Files</button>
                 </form>
             </div>
         </div>
-        <!-- script to create socket connection -->
-        <script src="script.js"></script>
-    </body>
+    </div>
+    <div id="stdout-container-container">
+        <p id="stdout-container"></p>
+        <button id="clearBtn">Clear logs</button>
+    </div>
+
+    <!-- script to create socket connection -->
+    <script src="script.js"></script>
+</body>
+
 </html>

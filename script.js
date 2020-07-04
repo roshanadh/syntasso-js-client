@@ -9,6 +9,7 @@ const codeEditor = document.getElementById('code-editor');
 const dockerConfigField = document.getElementById('dockerConfig');
 const runBtn = document.getElementById('runBtn');
 const stdoutContainer = document.getElementById('stdout-container');
+const clearBtn = document.getElementById("clearBtn");
 
 const fileUploadInput = document.getElementById('fileUpload');
 const sampleInputUploadInput = document.getElementById('sampleInputUpload');
@@ -17,6 +18,12 @@ const expectedOutputUploadInput = document.getElementById('expectedOutputUpload'
 const fileUploadBtn = document.getElementById('fileUploadBtn');
 const inputUploadBtn = document.getElementById('inputUploadBtn');
 const outputUploadBtn = document.getElementById('outputUploadBtn');
+
+const checkbox = document.getElementById("useJsFileCheckbox");
+
+clearBtn.addEventListener('click', event => {
+    stdoutContainer.innerHTML = "";
+});
 
 fileUploadBtn.addEventListener('click', (event) => {
     event.preventDefault();
@@ -28,14 +35,17 @@ fileUploadBtn.addEventListener('click', (event) => {
     formData.append('dockerConfig', dockerConfigField.value);
 
     for (var value of formData.values()) {
-        console.log(value); 
+        console.log(value);
     }
     if (file) {
         try {
             fetch('http://localhost:8080/upload', {
-                method: 'POST',
-                body: formData
-            });
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(res => console.dir({ res }))
+
         } catch (err) {
             console.err(err);
         }
@@ -44,36 +54,70 @@ fileUploadBtn.addEventListener('click', (event) => {
 
 outputUploadBtn.addEventListener('click', (event) => {
     event.preventDefault();
-    // const jsFile = fileUploadInput.files[0];
-    const inputFiles = sampleInputUploadInput.files;
-    const outputFiles = expectedOutputUploadInput.files;
+    if (!checkbox.checked) {
+        // use code editor value for test cases
+        const inputFiles = sampleInputUploadInput.files;
+        const outputFiles = expectedOutputUploadInput.files;
 
-    const formData = new FormData();
-    formData.append('socketId', socketId);
-    for (let input of inputFiles)
-        formData.append("sampleInputs", input);
-    for (let output of outputFiles)
-        formData.append("expectedOutputs", output);
-    formData.append('code', codeEditor.value || "console.log('Hello World!')");
-    formData.append('dockerConfig', dockerConfigField.value || 0);
+        const formData = new FormData();
+        formData.append('socketId', socketId);
+        for (let input of inputFiles)
+            formData.append("sampleInputs", input);
+        for (let output of outputFiles)
+            formData.append("expectedOutputs", output);
+        formData.append('code', codeEditor.value || "console.log('Hello World!')");
+        formData.append('dockerConfig', dockerConfigField.value || 0);
 
-    for (var value of formData.values()) {
-        console.log(value);
-    }
-    if (inputFiles && outputFiles) {
-        try {
-            fetch('http://localhost:8080/execute', {
-                method: 'POST',
-                body: formData
-            })
-            .then(res => res.json())
-            .then(response => console.dir({
-                response
-            }));
-        } catch (err) {
-            console.err(err);
+        for (var value of formData.values()) {
+            console.log(value);
+        }
+        if (inputFiles && outputFiles) {
+            try {
+                fetch('http://localhost:8080/execute', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(res => res.json())
+                    .then(response => console.dir({
+                        response
+                    }));
+            } catch (err) {
+                console.err(err);
+            }
+        }
+    } else {
+        const jsFile = fileUploadInput.files[0];
+        const inputFiles = sampleInputUploadInput.files;
+        const outputFiles = expectedOutputUploadInput.files;
+
+        const formData = new FormData();
+        formData.append('socketId', socketId);
+        for (let input of inputFiles)
+            formData.append("sampleInputs", input);
+        for (let output of outputFiles)
+            formData.append("expectedOutputs", output);
+        formData.append('submission', jsFile);
+        formData.append('dockerConfig', dockerConfigField.value || 0);
+
+        for (var value of formData.values()) {
+            console.log(value);
+        }
+        if (jsFile && inputFiles && outputFiles) {
+            try {
+                fetch('http://localhost:8080/upload', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(res => res.json())
+                    .then(response => console.dir({
+                        response
+                    }));
+            } catch (err) {
+                console.err(err);
+            }
         }
     }
+
 });
 
 runBtn.addEventListener('click', (event) => {
@@ -88,22 +132,19 @@ runBtn.addEventListener('click', (event) => {
     if (code && code.trim() !== '') {
         try {
             fetch('http://localhost:8080/execute', {
-                method: 'POST',
-                
-                body: JSON.stringify(payload),
-                headers: {
-                    'content-type': 'application/json'
-                },
-                credentials: 'include',
-            })
-            .then(response => {
-                console.log(response.json())
-                return response.json();
-            })
-            .then(res => console.log(res))
+                    method: 'POST',
+
+                    body: JSON.stringify(payload),
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    credentials: 'include',
+                })
+                .then(response => response.json())
+                .then(res => console.dir({ res }))
         } catch (err) {
             console.err(err);
-        } 
+        }
     }
 });
 
